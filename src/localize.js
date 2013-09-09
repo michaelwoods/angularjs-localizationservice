@@ -23,7 +23,7 @@ angular.module('localization', [])
             resourceFileLoaded:false,
 
             // success handler for all server communication
-            successCallback:function (data) {
+            setData:function (data) {
                 // store the returned array in the dictionary
                 localize.dictionary = data;
                 // set the flag that the resource are loaded
@@ -54,11 +54,11 @@ angular.module('localization', [])
                 // build the url to retrieve the localized resource file
                 var url = localize.url || localize.buildUrl();
                 // request the resource file
-                $http({ method:"GET", url:url, cache:false }).success(localize.successCallback).error(function () {
+                $http({ method:"GET", url:url, cache:false }).success(localize.setData).error(function () {
                     // the request failed set the url to the default resource file
                     var url = '/i18n/resources-locale_default.js';
                     // request the default resource file
-                    $http({ method:"GET", url:url, cache:false }).success(localize.successCallback);
+                    $http({ method:"GET", url:url, cache:false }).success(localize.setData);
                 });
             },
 
@@ -83,9 +83,6 @@ angular.module('localization', [])
                 return result;
             }
         };
-
-        // force the load of the resource file
-        localize.initLocalizedResources();
 
         // return the local instance when called
         return localize;

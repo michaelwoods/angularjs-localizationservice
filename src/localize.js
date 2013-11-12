@@ -77,7 +77,7 @@ angular.module('localization', [])
                     )[0];
 
                     // set the result
-                    result = entry.value;
+                    result = (!!entry && !!entry.value) ? entry.value : value;
                 }
                 // return the value to the call
                 return result;
